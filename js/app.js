@@ -60,14 +60,20 @@ App.ReviewsNewController = Ember.Controller.extend({
   actions: {
     createReview: function() {
       var controller = this;
-      this.get('model').save().then(function() {
-        controller.transitionToRoute('index');
+      this.get('model').save().then(function(model) {
+        var genre = model.get('genre');
+        genre.get('books').then(function(books){
+          books.pushObject(model);
+          genre.save();
+          controller.transitionToRoute('index');
+        });
       });
     }
   }
 });
 
-App.ApplicationAdapter = DS.FixtureAdapter.extend({
+App.ApplicationAdapter = DS.FirebaseAdapter.extend({
+  firebase: new Firebase("https://readinglist.firebaseio.com")
 });
 
 App.BookDetailsComponent = Ember.Component.extend({
