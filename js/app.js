@@ -22,6 +22,69 @@ App.IndexRoute = Ember.Route.extend({
   }
 });
 
+App.AuthController = Ember.Controller.extend({
+  authed: false,
+  currentUser: null,
+
+  init: function() {
+    this.authClient = new FirebaseSimpleLogin(dbRef, function(error, user) {
+      if (error) {
+        alert('Authentication failed: ' + error);
+      } else if (user) {
+        this.set('authed', true);
+        var userRef = new Firebase(usersPath + '/simplelogin:' + user.id);
+        var controller = this;
+        var properties = {
+            id: user.id,
+            email: user.email
+        };
+        userRef.once('value', function(snapshot) {
+            var data = snapshot.val();
+            var user = App.User.create({ ref: data});
+            user.setProperties(properties);
+            controller.set('currentUser', user);
+        });
+      } else {
+        this.set('authed', false);
+      }
+    }.bind(this));
+  },
+
+    login: function() {
+        console.log('made it inside login');
+        console.log(email.value);       
+        console.log(password.value);
+        console.log(remember.value);
+        this.authClient.login('password', {
+            email: email.value,
+            password: password.value,
+            rememberMe: remember.value
+        });
+    },
+
+    logout: function() {
+        this.authClient.logout();
+    },
+
+    createUser: function() {
+        console.log('made it inside createUser');
+        var email = createEmail.value;
+        console.log(email);
+        var password = createPassword.value;
+        console.log(password);
+        this.authClient.createUser(email, password, function(error, user) {
+            if (!error) {
+                console.log('User Id: ' + user.id + ', Email: ' + user.email);
+                var userRef = new Firebase(usersPath + '/simplelogin:' + user.id);
+                userRef.set({
+                    email: user.email,
+                    id: user.id
+                });
+            }
+        }
+    )}
+});
+
 App.IndexController = Ember.Controller.extend({});
 
 App.BooksController = Ember.ArrayController.extend({
@@ -70,6 +133,10 @@ App.ReviewsNewController = Ember.Controller.extend({
       });
     }
   }
+});
+
+App.User = EmberFire.Object.extend({
+
 });
 
 App.ApplicationAdapter = DS.FirebaseAdapter.extend({

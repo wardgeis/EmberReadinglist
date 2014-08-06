@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Ember Readinglist</title>
-  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -21,6 +22,28 @@
       </div>
     </div>
   </script>
+  
+  <form {{action createUser on='submit'}} class="form-horizontal" role='form'>
+    <div class='form-group'>
+        <label class="col-sm-5 control-label" for='createEmail'><p class='lead'>What''s your email?</p></label>
+        <div class="col-sm-7">
+            {{input type="email" classNames="form-control" value=createEmail id="createEmail" placeholder="Don't worry, we won't spam you..."}}
+        </div>
+    </div>
+    <div class='form-group'>
+        <label class="col-sm-5 control-label" for='createPassword'><p class='lead'>Choose a password...</p></label>
+        <div class="col-sm-7">
+            {{input type="password" classNames="form-control" value=createPassword id="createPassword" placeholder="Make it super hard to guess!"}}
+        </div>
+    </div>
+    <div class='form-group'>
+        <label class="col-sm-5 control-label" for='confirm'><p class='lead'>And confirm it</p></label>
+        <div class="col-sm-7">
+            {{input type="password" classNames="form-control" value=confirm id="confirm" placeholder="Make sure you know what you typed..."}}
+        </div>
+    </div>
+    <button type='submit'>Submit</button>
+  </form>
 
   <script type="text/x-handlebars" data-template-name="index">
     <ol class='breadcrumb'>
@@ -150,9 +173,11 @@
     {{book-details book=model}}
   </script>
 
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="js/libs/jquery-1.10.2.js"></script>
   <script src="js/libs/handlebars-1.1.2.js"></script>
   <script src="https://cdn.firebase.com/js/client/1.0.18/firebase.js"></script>
+  <script src="js/libs/firebase-simple-login.js"></script>
   <script src="js/libs/ember-1.4.0.js"></script>
   <script src="js/libs/ember-data.js"></script>
   <script src="js/libs/emberfire.js"></script>
