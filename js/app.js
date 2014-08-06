@@ -135,10 +135,6 @@ App.ReviewsNewController = Ember.Controller.extend({
   }
 });
 
-App.User = EmberFire.Object.extend({
-
-});
-
 App.ApplicationAdapter = DS.FirebaseAdapter.extend({
   firebase: new Firebase("https://readinglist.firebaseio.com")
 });
@@ -164,6 +160,10 @@ App.Book = DS.Model.extend({
     return "http://images.amazon.com/images/P/"+this.get('amazon_id')+".01.ZTZZZZZZ.jpg";
   }.property('amazon_id')
 });
+
+//App.User = EmberFire.Object.extend({
+//
+//});
 
 App.Book.FIXTURES = [
   {
