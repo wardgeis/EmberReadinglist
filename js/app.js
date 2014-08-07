@@ -4,6 +4,7 @@ App.Router.map(function() {
   // put your routes here
   this.resource('book', { path: '/books/:book_id'});
   this.resource('genre', { path: '/genres/:genre_id'});
+  this.resource('login');
   this.resource('reviews', function() {
     this.route('new');
   });
@@ -161,11 +162,21 @@ App.Book = DS.Model.extend({
   }.property('amazon_id')
 });
 
+App.Genre = DS.Model.extend({
+  name: DS.attr(),
+  books: DS.hasMany('book', {async: true})
+});
+
+App.User = DS.Model.extend({
+  email: DS.attr('email'),
+  password: DS.attr(),
+});
+
 //App.User = EmberFire.Object.extend({
 //
 //});
 
-App.Book.FIXTURES = [
+/*App.Book.FIXTURES = [
   {
     id: 1,
     title: 'Mindstorms',
@@ -193,14 +204,9 @@ App.Book.FIXTURES = [
     amazon_id: '159184617X',
     genre: 3
   }
-];
+]; */
 
-App.Genre = DS.Model.extend({
-  name: DS.attr(),
-  books: DS.hasMany('book', {async: true})
-});
-
-App.Genre.FIXTURES = [
+/* App.Genre.FIXTURES = [
   {
     id: 1,
     name: 'Science Fiction',
@@ -215,4 +221,4 @@ App.Genre.FIXTURES = [
     name: 'Non-Fiction',
     books: [1,3]
   }
-];
+]; */
